@@ -2,32 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public readonly User $user;
+    
+    public function __construct()
+    {
+        $this->user = new User();
+    }
+    
     public function index()
     {
-        //
+        $users = $this->user->all();
+        return View('users/users', ['users' => $users]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        //
+    {   
+        return View('users/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        try{
+            User::create([
+                'name'=> $request->name,
+                'email'=> $request->email,    
+                'password' => $request->password
+            ]); 
+            
+            return redirect()->route('users.create')->with('sucess', 
+            'Usuário cadastrado com sucesso!');
+            
+        } catch( Exception $e){
+            return back()->withInput()->with('error', 
+            'Usuário não cadastrado !'); 
+        }  
     }
 
     /**

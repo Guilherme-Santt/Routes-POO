@@ -25,9 +25,9 @@
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>
-                    <a href="">Visualizar</a>
+                    <a href="{{ Route('users.show', ['user' => $user->id]) }}">Visualizar</a>
                     <a href="{{ Route('users.edit', ['user' => $user->id]) }}">Editar</a>
-                    <a href="">Apagar</a>
+                    <a href="">Visualizar</a>
                 </td>
                 @if(!$users)
                 <td>Nenhum usuário encontrado!</td>
@@ -35,7 +35,7 @@
             </tr>
             @endforeach
         </tbody>
-        <a href="{{ Route('users.create') }}">Cadastrar</a>
+        <a href=" {{ Route('users.create') }}">Cadastrar</a>
 
     </table>
 </body>

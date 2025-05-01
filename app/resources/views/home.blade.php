@@ -2,5 +2,6 @@
 
 @section('content')
 <h2>Home</h2>
-<a href="{{ Route('users.create') }}">Cadastrar</a>
+<h1>Bem-vindos!</h1>
+<a href="{{ Route('users.index') }}">Usuários</a>
 @endsection

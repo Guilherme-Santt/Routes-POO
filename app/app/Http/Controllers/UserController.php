@@ -11,14 +11,9 @@ class UserController extends Controller
 {
     public readonly User $user;
     
-    public function __construct()
-    {
-        $this->user = new User();
-    }
-    
     public function index()
     {
-        $users = $this->user->all();
+        $users = User::OrderByDesc('id')->get();
         return View('users/users', ['users' => $users]);
     }
 
@@ -62,17 +57,27 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return View('users/edit', ['user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(UserRequest $request, User $user)
+    {   
+        try{
+            
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email
+        ]);
+        return redirect()->Route('users.edit', ['user' => $user->id])->with('sucess', 'Usuário editado com sucesso.');
+        }catch(Exception $e){
+            dd($e->getMessage());
+            // return back()->withInput()->with('error', 'Erro ao editar paciente');
+        }
     }
 
     /**
@@ -80,6 +85,6 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }
